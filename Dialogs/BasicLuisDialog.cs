@@ -30,7 +30,17 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("None")]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You have reached the none intent. You said: {result.Query}"); //
+            const string presentUrl = "https://frbxmashack2017.azurewebsites.net/api/GetWishlist?code=/DnTnrysKWgCtMmdmSdqDmI08SrDiiwavqft9o6mwyWwWPVVfeYNhA==";
+
+            var client = new HttpClient();
+            var response = await client.GetAsync(presentUrl);
+            var s = "";
+            var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
+            if (list.Count > 1) s = "es";
+            var idx = new Random().Next(list.Count);
+            var randomItem = list[idx];
+            
+            await context.PostAsync($"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}"); //
             context.Wait(MessageReceived);
         }
 
@@ -48,8 +58,9 @@ namespace Microsoft.Bot.Sample.LuisBot
             context.Wait(MessageReceived);
         }
 
-        [LuisIntent("personality")]
-        public async Task Personality(IDialogContext context, LuisResult result)
+
+        [LuisIntent("welcome")]
+        public async Task Welcome(IDialogContext context, LuisResult result)
         {
             const string presentUrl = "https://frbxmashack2017.azurewebsites.net/api/GetWishlist?code=/DnTnrysKWgCtMmdmSdqDmI08SrDiiwavqft9o6mwyWwWPVVfeYNhA==";
 
@@ -58,10 +69,9 @@ namespace Microsoft.Bot.Sample.LuisBot
             var s = "";
             var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
             if (list.Count > 1) s = "es";
-            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. Do you want more stuff?"); //
+            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. How about you add some more?"); //
             context.Wait(MessageReceived);
         }
-
 
         [LuisIntent("present")]
         public async Task Present(IDialogContext context, LuisResult result)
