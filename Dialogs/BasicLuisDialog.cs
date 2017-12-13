@@ -119,5 +119,20 @@ namespace Microsoft.Bot.Sample.LuisBot
             await context.SayAsync(msg, speak: msg);
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("list")]
+        public async Task GetList(IDialogContext context, LuisResult result)
+        {
+            const string presentUrl = "https://frbxmashack2017.azurewebsites.net/api/GetWishlist?code=/DnTnrysKWgCtMmdmSdqDmI08SrDiiwavqft9o6mwyWwWPVVfeYNhA==";
+
+            var client = new HttpClient();
+            var response = await client.GetAsync(presentUrl);
+
+            var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
+            var listMessage = string.Join(", ", list.Select(i=>i.Name));
+            var msg = $"On your list I have: " + listMessage;
+            await context.SayAsync(msg, speak: msg);
+            context.Wait(MessageReceived);
+        }
     }
 }
