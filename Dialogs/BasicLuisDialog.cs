@@ -13,6 +13,9 @@ namespace Microsoft.Bot.Sample.LuisBot
     [Serializable]
     public class BasicLuisDialog : LuisDialog<object>
     {
+
+        private string[] skills = new[] { "weather", "presents" };
+
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(ConfigurationManager.AppSettings["LuisAppId"], ConfigurationManager.AppSettings["LuisAPIKey"])))
         {
         }
@@ -41,7 +44,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("personality")]
         public async Task Personality(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You have reached the personality intent. You said: {result.Query}"); //
+            await context.PostAsync($"Nice to meet you. I am Santa's helper, I am happy to help with {skills}. Just ask!"); //
             context.Wait(MessageReceived);
         }
 
