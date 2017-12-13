@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Sample.LuisBot
 {
@@ -15,8 +16,12 @@ namespace Microsoft.Bot.Sample.LuisBot
     [Serializable]
     public class BasicLuisDialog : LuisDialog<object>
     {
-
-        private string skills = "weather, presents";
+        //[{"name":"XBox","date":"2017-12-13T10:46:59.8092593Z"}]
+        private class Present
+        {
+            public string Name { get; set; }
+            public DateTime Date { get; set; }
+        }
 
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(ConfigurationManager.AppSettings["LuisAppId"], ConfigurationManager.AppSettings["LuisAPIKey"])))
         {
@@ -46,9 +51,13 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("personality")]
         public async Task Personality(IDialogContext context, LuisResult result)
         {
-            var myStuff = new List<String>(new[] { "horse", "donkey" });
+            const string presentUrl = "https://frbxmashack2017.azurewebsites.net/api/GetWishlist?code=/DnTnrysKWgCtMmdmSdqDmI08SrDiiwavqft9o6mwyWwWPVVfeYNhA==";
 
-            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {myStuff.Count} wishes from you. Do you want more stuff?"); //
+            var client = new HttpClient();
+            var response = await client.GetAsync(presentUrl);
+
+            var list = JsonConvert.DeserializeObject<List<Present>>(await response.Content.ReadAsStringAsync());
+            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wishes from you. Do you want more stuff?"); //
             context.Wait(MessageReceived);
         }
 
