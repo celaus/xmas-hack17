@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             var client = new HttpClient();
             var response = client.GetAsync(treeUrl); 
 
-            var msg = "Merry Christmas CSE! hohoho?";
+            var msg = "Merry Christmas CSE! hohoho";
             await context.SayAsync(msg, speak: msg);
             context.Wait(MessageReceived);
         }
