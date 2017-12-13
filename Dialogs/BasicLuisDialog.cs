@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Sample.LuisBot
     public class BasicLuisDialog : LuisDialog<object>
     {
         //[{"name":"XBox","date":"2017-12-13T10:46:59.8092593Z"}]
-        private class Present
+        private class WishListEntry
         {
             public string Name { get; set; }
             public DateTime Date { get; set; }
@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             var client = new HttpClient();
             var response = await client.GetAsync(presentUrl);
 
-            var list = JsonConvert.DeserializeObject<List<Present>>(await response.Content.ReadAsStringAsync());
+            var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
             await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wishes from you. Do you want more stuff?"); //
             context.Wait(MessageReceived);
         }
