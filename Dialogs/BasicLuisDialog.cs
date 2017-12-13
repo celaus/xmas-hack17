@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             if (list.Count > 0)
             {
                 var randomItem = list[idx];
-                msg += ", among others a { randomItem.Name}";
+                msg += $", among others a {randomItem.Name}";
             }
             else
             {
