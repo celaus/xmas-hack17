@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
@@ -28,7 +29,12 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("weather")]
         public async Task Weather(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You have reached the weather intent. You said: {result.Query}"); //
+            const string weatherUrl = "https://frbxmashack2017.azurewebsites.net/api/GetWeather?code=TAS3VaGt5RvskcqAgwZdeRUQxkb/C5uckjlEaRXYlvDz2Nvr88Vu6Q==";
+
+            var client = new HttpClient();
+
+            var weatherResponse = await client.GetStringAsync(weatherUrl);
+            await context.PostAsync($"The weather here is {weatherResponse}"); 
             context.Wait(MessageReceived);
         }
 
