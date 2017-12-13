@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("tree")]
         public async Task TreeLights(IDialogContext context, LuisResult result)
         {
-            const string treeUrl = "https://frbtalktotree.azurewebsites.net/api/TalkToTreeFunction?code=utSazS2dMOcOgXPNRx3AHDyDJHDjbMP1RIp68NqmaQEz8y6BlSJ2DA==";
+            const string treeUrl = "https://frbtalktotree.azurewebsites.net/api/TalkToTreeFunction?deviceId=cehackpi1&module=xmasmodule&deviceMethod=blink&code=utSazS2dMOcOgXPNRx3AHDyDJHDjbMP1RIp68NqmaQEz8y6BlSJ2DA==";
             
             var client = new HttpClient();
             var response = client.GetAsync(treeUrl); 
