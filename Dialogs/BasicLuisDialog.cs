@@ -31,5 +31,12 @@ namespace Microsoft.Bot.Sample.LuisBot
             await context.PostAsync($"You have reached the weather intent. You said: {result.Query}"); //
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("personality")]
+        public async Task Personality(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync($"You have reached the personality intent. You said: {result.Query}"); //
+            context.Wait(MessageReceived);
+        }
     }
 }
