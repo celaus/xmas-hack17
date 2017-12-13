@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public async Task Present(IDialogContext context, LuisResult result)
         {
             await context.PostAsync($"You have reached the PRESENT intent. You said: {result.Query}"); //
-            context.Wait(MessageReceived);
+            context.Wait(MessageReceived); 
         }
     }
 }
