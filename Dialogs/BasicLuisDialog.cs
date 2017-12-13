@@ -42,8 +42,10 @@ namespace Microsoft.Bot.Sample.LuisBot
             if (list.Count > 1) s = "es";
             var idx = new Random().Next(list.Count);
             var randomItem = list[idx];
+            var msg = $"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}";
 
-            await context.SayAsync($"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}");
+            await context.SayAsync(msg);
+
             context.Wait(MessageReceived);
         }
 
@@ -57,7 +59,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             var client = new HttpClient();
 
             var weatherResponse = await client.GetStringAsync(weatherUrl);
-            await context.SayAsync($"The weather here is {weatherResponse}");
+            var msg = $"The weather here is {weatherResponse}";
+            await context.SayAsync(msg, speak:msg);
             context.Wait(MessageReceived);
         }
 
@@ -72,7 +75,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             var s = "";
             var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
             if (list.Count > 1) s = "es";
-            await context.SayAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. How about you add some more?"); //
+            var msg = $"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. How about you add some more?";
+            await context.SayAsync(msg, speak:msg); //
             context.Wait(MessageReceived);
         }
 
@@ -89,7 +93,8 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             var response = await client.PostAsJsonAsync(presentUrl, new { name = presentName });
 
-            await context.SayAsync("Consider it done");
+            var msg = "Consider it done";
+            await context.SayAsync(msg, speak: msg);
 
             context.Wait(MessageReceived);
         }
@@ -99,7 +104,9 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             const string treeUrl = "https://frbtalktotree.azurewebsites.net/api/TalkToTreeFunction?code=utSazS2dMOcOgXPNRx3AHDyDJHDjbMP1RIp68NqmaQEz8y6BlSJ2DA==";
 
-            await context.PostAsync("Doing it now...");
+
+            var msg = "Merry Christmas! ho! ho! ho!";
+            await context.SayAsync(msg, speak:msg);
 
             var client = new HttpClient();
             var response = await client.GetAsync(treeUrl);
