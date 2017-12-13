@@ -39,12 +39,20 @@ namespace Microsoft.Bot.Sample.LuisBot
             var response = await client.GetAsync(presentUrl);
             var s = "";
             var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
-            if (list.Count > 1) s = "es";
+            if (list.Count != 1) s = "es";
             var idx = new Random().Next(list.Count);
-            var randomItem = list[idx];
-            var msg = $"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}";
 
-            await context.SayAsync(msg);
+            var msg = $"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}";
+            if (list.Count > 0)
+            {
+                var randomItem = list[idx];
+                msg += ", among others a { randomItem.Name}";
+            }
+            else
+            {
+                msg += ".";
+            }
+            await context.SayAsync(msg, speak: msg);
 
             context.Wait(MessageReceived);
         }
