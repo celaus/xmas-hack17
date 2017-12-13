@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("present")]
         public async Task Present(IDialogContext context, LuisResult result)
         {
-            const string presentUrl = "https://requestb.in/q2z0ewq2?inspect";
+            const string presentUrl = "https://requestb.in/q2z0ewq2";
 
             var client = new HttpClient();
 
