@@ -19,7 +19,9 @@ namespace Microsoft.Bot.Sample.LuisBot
         //[{"name":"XBox","date":"2017-12-13T10:46:59.8092593Z"}]
         private class WishListEntry
         {
+            [JsonProperty("name")]
             public string Name { get; set; }
+            [JsonProperty("date")]
             public DateTime Date { get; set; }
         }
 
