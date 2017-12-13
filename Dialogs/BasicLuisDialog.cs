@@ -25,10 +25,10 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         // Go to https://luis.ai and create a new intent, then train/publish your luis app.
         // Finally replace "MyIntent" with the name of your newly created intent in the following handler
-        [LuisIntent("MyIntent")]
-        public async Task MyIntent(IDialogContext context, LuisResult result)
+        [LuisIntent("weather")]
+        public async Task Weather(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You have reached the MyIntent intent. You said: {result.Query}"); //
+            await context.PostAsync($"You have reached the weather intent. You said: {result.Query}"); //
             context.Wait(MessageReceived);
         }
     }
