@@ -55,11 +55,13 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             var client = new HttpClient();
             var response = await client.GetAsync(presentUrl);
-
+            var s = "";
             var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
-            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wishes from you. Do you want more stuff?"); //
+            if (list.Count > 1) s = "es";
+            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. Do you want more stuff?"); //
             context.Wait(MessageReceived);
         }
+
 
         [LuisIntent("present")]
         public async Task Present(IDialogContext context, LuisResult result)
