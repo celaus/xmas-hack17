@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using System.Collections.Generic;
 
 namespace Microsoft.Bot.Sample.LuisBot
 {
@@ -15,7 +16,7 @@ namespace Microsoft.Bot.Sample.LuisBot
     public class BasicLuisDialog : LuisDialog<object>
     {
 
-        private string[] skills = new[] { "weather", "presents" };
+        private string skills = "weather, presents";
 
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(ConfigurationManager.AppSettings["LuisAppId"], ConfigurationManager.AppSettings["LuisAPIKey"])))
         {
@@ -45,7 +46,9 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("personality")]
         public async Task Personality(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"Nice to meet you. I am Santa's helper, I am happy to help with {skills}. Just ask!"); //
+            var myStuff = new List<String>(new[] { "horse", "donkey" });
+
+            await context.PostAsync($"Nice to meet you. I am Santa's helper, so I have {myStuff.Count} presents from you. Do you want more stuff?"); //
             context.Wait(MessageReceived);
         }
 
