@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Bot.Sample.LuisBot
 {
     // For more information about this template visit http://aka.ms/azurebots-csharp-luis
+    [LuisModel("{luis_app_id}", "{subscription_key}")]
     [Serializable]
     public class BasicLuisDialog : LuisDialog<object>
     {
@@ -41,8 +42,10 @@ namespace Microsoft.Bot.Sample.LuisBot
             if (list.Count > 1) s = "es";
             var idx = new Random().Next(list.Count);
             var randomItem = list[idx];
-            
-            await context.PostAsync($"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}"); //
+
+            var msg = $"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}";
+            //await context.PostAsync(msg);
+            await context.SayAsync(msg);
             context.Wait(MessageReceived);
         }
 
@@ -56,7 +59,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             var client = new HttpClient();
 
             var weatherResponse = await client.GetStringAsync(weatherUrl);
-            await context.PostAsync($"The weather here is {weatherResponse}");
+            await context.SayAsync($"The weather here is {weatherResponse}");
             context.Wait(MessageReceived);
         }
 
@@ -71,7 +74,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             var s = "";
             var list = JsonConvert.DeserializeObject<List<WishListEntry>>(await response.Content.ReadAsStringAsync());
             if (list.Count > 1) s = "es";
-            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. How about you add some more?"); //
+            await context.SayAsync($"Nice to meet you. I am Santa's helper, so far I know your {list.Count} wish{s}. How about you add some more?"); //
             context.Wait(MessageReceived);
         }
 
@@ -88,7 +91,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             var response = await client.PostAsJsonAsync(presentUrl, new { name = presentName });
 
-            await context.PostAsync("Consider it done");
+            await context.SayAsync("Consider it done");
 
             context.Wait(MessageReceived);
         }
