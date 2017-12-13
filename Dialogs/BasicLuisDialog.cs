@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             var client = new HttpClient();
 
             var weatherResponse = await client.GetStringAsync(weatherUrl);
-            await context.PostAsync($"The weather here is {weatherResponse}"); 
+            await context.PostAsync($"The weather here is {weatherResponse}");
             context.Wait(MessageReceived);
         }
 
@@ -51,8 +52,19 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("present")]
         public async Task Present(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You have reached the PRESENT intent. You said: {result.Query}"); //
-            context.Wait(MessageReceived); 
+            const string presentUrl = "https://requestb.in/q2z0ewq2?inspect";
+
+            var client = new HttpClient();
+
+            // error handling is left as an exercise for the user ;-)
+            var entity = result.Entities[0];
+            var presentName = entity.Entity;
+
+            var response = await client.PostAsJsonAsync(presentUrl, new { name = presentName });
+
+            await context.PostAsync("Consider it done");
+
+            context.Wait(MessageReceived);
         }
     }
 }
