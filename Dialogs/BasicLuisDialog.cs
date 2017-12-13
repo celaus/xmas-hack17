@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             const string treeUrl = "https://frbtalktotree.azurewebsites.net/api/TalkToTreeFunction?code=utSazS2dMOcOgXPNRx3AHDyDJHDjbMP1RIp68NqmaQEz8y6BlSJ2DA==";
             
             var client = new HttpClient();
-            var response = await client.GetAsync(treeUrl); 
+            var response = client.GetAsync(treeUrl); 
 
             var msg = "Merry Christmas! ho! ho! ho!";
             await context.SayAsync(msg, speak: msg);
