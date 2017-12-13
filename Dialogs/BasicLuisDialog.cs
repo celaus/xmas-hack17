@@ -43,9 +43,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             var idx = new Random().Next(list.Count);
             var randomItem = list[idx];
 
-            var msg = $"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}";
-            //await context.PostAsync(msg);
-            await context.SayAsync(msg);
+            await context.SayAsync($"Not sure what you mean. Anyway so far, your list contains {list.Count} wish{s}, among others a {randomItem.Name}");
             context.Wait(MessageReceived);
         }
 
