@@ -95,5 +95,18 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("tree")]
+        public async Task TreeLights(IDialogContext context, LuisResult result)
+        {
+            const string treeUrl = "https://frbtalktotree.azurewebsites.net/api/TalkToTreeFunction?code=utSazS2dMOcOgXPNRx3AHDyDJHDjbMP1RIp68NqmaQEz8y6BlSJ2DA==";
+
+            await context.PostAsync("Doing it now...");
+
+            var client = new HttpClient();
+            var response = await client.GetAsync(treeUrl);
+
+            context.Wait(MessageReceived);
+        }
     }
 }
