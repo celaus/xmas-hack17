@@ -44,5 +44,12 @@ namespace Microsoft.Bot.Sample.LuisBot
             await context.PostAsync($"You have reached the personality intent. You said: {result.Query}"); //
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("present")]
+        public async Task Present(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync($"You have reached the PRESENT intent. You said: {result.Query}"); //
+            context.Wait(MessageReceived);
+        }
     }
 }
