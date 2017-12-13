@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             var myStuff = new List<String>(new[] { "horse", "donkey" });
 
-            await context.PostAsync($"Nice to meet you. I am Santa's helper, so I have {myStuff.Count} presents from you. Do you want more stuff?"); //
+            await context.PostAsync($"Nice to meet you. I am Santa's helper, so far I know your {myStuff.Count} wishes from you. Do you want more stuff?"); //
             context.Wait(MessageReceived);
         }
 
@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             const string presentUrl = "https://frbxmashack2017.azurewebsites.net/api/UpdateWishlist?code=UuKcdc5YTMPp8k0yfBHF/39/e3EvjiUxoikbi1mEQ2eaVuWyKtFJ3w==";
 
             var client = new HttpClient();
-
+            
             // error handling is left as an exercise for the user ;-)
             var entity = result.Entities[0];
             var presentName = entity.Entity;
